@@ -15,39 +15,38 @@ const [name, setName] = useState('');
 const [phone, setPhone] = useState('');
 const [error, setError] = useState('');
 const [timeLeft, setTimeLeft] = useState(() => {
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedTime = localStorage.getItem('timer_end_time');
-    const fifteenHours = 15 * 60 * 60 * 1000;
-    if (savedTime) {
-      const diff = Math.floor((Number(savedTime) - Date.now()) / 1000);
-      return diff > 0 ? diff : 0;
-    } else {
-      const endTime = Date.now() + fifteenHours;
-      localStorage.setItem('timer_end_time', endTime.toString());
-      return fifteenHours / 1000;
-    }
-  });
-  
+  const savedTime = localStorage.getItem('timer_end_time');
+  const fifteenHours = 15 * 60 * 60 * 1000;
+  if (savedTime) {
+    const diff = Math.floor((Number(savedTime) - Date.now()) / 1000);
+    return diff > 0 ? diff : 0;
+  } else {
+    const endTime = Date.now() + fifteenHours;
+    localStorage.setItem('timer_end_time', endTime.toString());
+    return fifteenHours / 1000;
+  }
+});
 
 
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev > 0) {
-          return prev - 1;
-        } else {
-          const fifteenHours = 15 * 60 * 60 * 1000;
-          const newEndTime = Date.now() + fifteenHours;
-          localStorage.setItem('timer_end_time', newEndTime.toString());
-          return fifteenHours / 1000;
-        }
-      });
-    }, 1000);
-  
-    return () => clearInterval(interval);
-  }, []);
-  
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setTimeLeft((prev) => {
+      if (prev > 0) {
+        return prev - 1;
+      } else {
+        const fifteenHours = 15 * 60 * 60 * 1000;
+        const newEndTime = Date.now() + fifteenHours;
+        localStorage.setItem('timer_end_time', newEndTime.toString());
+        return fifteenHours / 1000;
+      }
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
+
 
 
 const formatTime = (seconds: number) => {
