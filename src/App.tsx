@@ -15,27 +15,39 @@ const [name, setName] = useState('');
 const [phone, setPhone] = useState('');
 const [error, setError] = useState('');
 const [timeLeft, setTimeLeft] = useState(() => {
-  const savedTime = localStorage.getItem('timer_end_time');
-  if (savedTime) {
-    const diff = Math.floor((Number(savedTime) - Date.now()) / 1000);
-    return diff > 0 ? diff : 0;
-  } else {
-    const randomMinutes = Math.floor(Math.random() * (30 - 10 + 1)) + 10; // от 10 до 30 минут
-    const endTime = Date.now() + randomMinutes * 60 * 1000;
-    localStorage.setItem('timer_end_time', endTime.toString());
-    return randomMinutes * 60;
-  }
-});
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const savedTime = localStorage.getItem('timer_end_time');
+    const fifteenHours = 15 * 60 * 60 * 1000;
+    if (savedTime) {
+      const diff = Math.floor((Number(savedTime) - Date.now()) / 1000);
+      return diff > 0 ? diff : 0;
+    } else {
+      const endTime = Date.now() + fifteenHours;
+      localStorage.setItem('timer_end_time', endTime.toString());
+      return fifteenHours / 1000;
+    }
+  });
+  
 
 
 
-useEffect(() => {
-  const interval = setInterval(() => {
-    setTimeLeft((prev) => (prev > 0 ? prev - 1 : 0));
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, []);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev > 0) {
+          return prev - 1;
+        } else {
+          const fifteenHours = 15 * 60 * 60 * 1000;
+          const newEndTime = Date.now() + fifteenHours;
+          localStorage.setItem('timer_end_time', newEndTime.toString());
+          return fifteenHours / 1000;
+        }
+      });
+    }, 1000);
+  
+    return () => clearInterval(interval);
+  }, []);
+  
 
 
 const formatTime = (seconds: number) => {
@@ -248,7 +260,7 @@ const handleVote = (option: string) => {
     <div className="flex items-center gap-4">
       <img src="/photo/rev_photo3.jpg" alt="Михайло" className="w-12 h-12 rounded-full object-cover" />
       <div>
-        <div className="font-semibold">Михайло</div>
+        <div className="font-semibold">Катерина</div>
         <div className="text-sm text-gray-500">34 роки</div>
       </div>
     </div>
