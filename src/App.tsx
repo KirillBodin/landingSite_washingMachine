@@ -14,18 +14,20 @@ const formRef = useRef<HTMLFormElement>(null);
 const [name, setName] = useState('');
 const [phone, setPhone] = useState('');
 const [error, setError] = useState('');
+const fifteenHours = 15 * 60 * 60; // 15 часов в секундах
+
 const [timeLeft, setTimeLeft] = useState(() => {
   const savedTime = localStorage.getItem('timer_end_time');
-  const fifteenHours = 15 * 60 * 60 * 1000;
   if (savedTime) {
     const diff = Math.floor((Number(savedTime) - Date.now()) / 1000);
     return diff > 0 ? diff : 0;
   } else {
-    const endTime = Date.now() + fifteenHours;
+    const endTime = Date.now() + fifteenHours * 1000;
     localStorage.setItem('timer_end_time', endTime.toString());
-    return fifteenHours / 1000;
+    return fifteenHours;
   }
 });
+
 
 
 
@@ -36,10 +38,10 @@ useEffect(() => {
       if (prev > 0) {
         return prev - 1;
       } else {
-        const fifteenHours = 15 * 60 * 60 * 1000;
-        const newEndTime = Date.now() + fifteenHours;
+        const fifteenHours = 15 * 60 * 60;
+        const newEndTime = Date.now() + fifteenHours * 1000;
         localStorage.setItem('timer_end_time', newEndTime.toString());
-        return fifteenHours / 1000;
+        return fifteenHours;
       }
     });
   }, 1000);
@@ -49,14 +51,18 @@ useEffect(() => {
 
 
 
+
 const formatTime = (seconds: number) => {
-  const mins = Math.floor(seconds / 60)
+  const hrs = Math.floor(seconds / 3600)
+    .toString()
+    .padStart(2, "0");
+  const mins = Math.floor((seconds % 3600) / 60)
     .toString()
     .padStart(2, "0");
   const secs = (seconds % 60)
     .toString()
     .padStart(2, "0");
-  return `${mins}:${secs}`;
+  return `${hrs}:${mins}:${secs}`;
 };
 
 
@@ -464,7 +470,7 @@ const handleVote = (option: string) => {
   {/* === Футер === */}
   <footer className="bg-gray-100 w-full text-center text-sm text-gray-700 px-4 py-6 mt-4">
         <p className="mb-2">
-          Інтернет магазин SuperShop - ОГРН 1234567890123
+          Інтернет магазин SuperShop - ОГРН 72503632
         </p>
         <p className="mb-4">
           01001, Україна, м. Київ, вулиця Хрещатик, 1
