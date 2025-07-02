@@ -1,5 +1,6 @@
 import type React from "react";
 import { useState, useRef,useEffect  } from "react";
+import emailjs from "@emailjs/browser";
 
 const App: React.FC = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -405,12 +406,36 @@ const handleVote = (option: string) => {
   onSubmit={(e) => {
     e.preventDefault();
     if (!name.trim() || !phone.trim()) {
-      setError('Будь ласка, заповніть усі поля!');
+      setError("Будь ласка, заповніть усі поля!");
       return;
     }
-    setError('');
-    setModalOpen(true);
+  
+    setError("");
+  
+    const templateParams = {
+      user_name: name,
+      user_phone: phone,
+      site: window.location.href,
+    };
+  
+    emailjs
+      .send(
+        "service_5afhkm7",         // Service ID
+        "template_zthh5f7",          // Template ID
+        templateParams,
+        "dhMyiWzRd1i77Jqq9"       // Public Key
+      )
+      .then(() => {
+        setModalOpen(true);      // показываем модалку
+        setName("");
+        setPhone("");
+      })
+      .catch((error) => {
+        console.error("Помилка при відправці:", error);
+        setError("Сталася помилка при відправці. Спробуйте ще раз пізніше.");
+      });
   }}
+  
 >
   <input
     type="text"
@@ -448,19 +473,29 @@ const handleVote = (option: string) => {
 
 {/* === Секция с кликабельным баннером === */}
 <section className="w-full px-4 py-6 flex flex-col items-center">
-  <a href="http://novaposhta.ua/game_aktsiya_acer" target="_blank" rel="noopener noreferrer">
-    <img
-      src="/photo/NP.png"
-      alt="Баннер"
-      className="w-full max-w-[480px] rounded-md shadow-lg hover:opacity-90 transition"
-    />
+         {/* 📦 Баннер Новой Пошти */}
+<a
+  href="https://novaposhta.ua/game_aktsiya_acer/"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  <img
+    src="/photo/NP.jpg"
+    alt="Нова Пошта"
+    className="w-full max-w-[480px] mb-2"
+  />
+</a>
+<p className="text-xs text-center text-gray-600 mt-2 max-w-[480px]">
+Акція діє з 23.06.2025 до 31.08.2025 включно по всій території України, крім тимчасово окупованих територій. Подробиці: novaposhta.ua/flat2_delivery {" "}
+  <a
+    href="http://novaposhta.ua/flat2_delivery"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-600 hover:underline"
+  >
+    novaposhta.ua/game_aktsiya_acer
   </a>
-
-  {/* Текст под баннером */}
-  <p className="text-xs text-center text-gray-600 mt-4 max-w-[480px]">
-    Акція діє з 21.04 по 18.05.2025 включно на всій території України, крім тимчасово окупованих територій. 
-    Деталі: <a href="http://novaposhta.ua/game_aktsiya_acer" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">novaposhta.ua/game_aktsiya_acer</a>
-  </p>
+</p>
 </section>
 
 
