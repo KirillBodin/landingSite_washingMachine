@@ -473,9 +473,9 @@ const handleVote = (option: string) => {
 
 {/* === Секция с кликабельным баннером === */}
 <section className="w-full px-4 py-6 flex flex-col items-center">
-        {/* 📦 Баннер Новой Пошти */}
+      {/* 📦 Баннер Новой Пошти */}
 <a
-  href="https://novaposhta.ua/game_aktsiya_acer/"
+  href="http://novaposhta.ua/flat2_delivery"
   target="_blank"
   rel="noopener noreferrer"
 >
