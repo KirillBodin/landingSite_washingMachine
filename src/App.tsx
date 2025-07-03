@@ -473,7 +473,7 @@ const handleVote = (option: string) => {
 
 {/* === Секция с кликабельным баннером === */}
 <section className="w-full px-4 py-6 flex flex-col items-center">
-         {/* 📦 Баннер Новой Пошти */}
+        {/* 📦 Баннер Новой Пошти */}
 <a
   href="https://novaposhta.ua/game_aktsiya_acer/"
   target="_blank"
@@ -486,14 +486,14 @@ const handleVote = (option: string) => {
   />
 </a>
 <p className="text-xs text-center text-gray-600 mt-2 max-w-[480px]">
-Акція діє з 23.06.2025 до 31.08.2025 включно по всій території України, крім тимчасово окупованих територій. Подробиці: novaposhta.ua/flat2_delivery {" "}
+Акція діє з 23.06.2025 до 31.08.2025 включно по всій території України, крім тимчасово окупованих територій. Подробиці:  {" "}
   <a
     href="http://novaposhta.ua/flat2_delivery"
     target="_blank"
     rel="noopener noreferrer"
     className="text-blue-600 hover:underline"
   >
-    novaposhta.ua/game_aktsiya_acer
+novaposhta.ua/flat2_delivery
   </a>
 </p>
 </section>
